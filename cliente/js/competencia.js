@@ -1,5 +1,6 @@
 // Esta es la ip y puerto en que necesitamos que esté el backend disponible
-var server = 'http://0.0.0.0:8080';
+//var server = 'http://0.0.0.0:8080';
+var server = 'http://localhost:8080';
 
 function CompetenciasController () {
 
@@ -11,6 +12,7 @@ function CompetenciasController () {
 		// Se obtiene de la api el listado de competencias
 		$.getJSON(server+"/competencias", function (data) {
 				// Se carga la información obtenida en el DOM
+				console.log(data);
 				self.cargarCompetencias(data);
 		 });
 	},
@@ -33,6 +35,7 @@ function CompetenciasController () {
 			});
 			// Se coloca el nombre de cada competencia
 			$(divCompetencia).find('.titulo').text(data[i].nombre);
+			console.log(data[i].nombre);
 			$(divCompetencia).find('.card').addClass('color'+idColor);
 			
 			if (idColorCrece){
@@ -93,7 +96,7 @@ function CompetenciasController () {
 			// Se selecciona el div que contiene la opción a cargar
 			var divOpcion = "#opcion"+(i+1);
 			// Se carga el valor del id de la película de la opción actual
-			$(divOpcion+" .idPelicula").val((opciones.peliculas)[i].id);
+			$(divOpcion+" .idPelicula").val((opciones.peliculas)[i].pelicula_id);
 			// Se carga la imagen del poster de la película de la opción actual
 			$(divOpcion+" .poster").attr("src",(opciones.peliculas)[i].poster);
 			// Se carga el título de la película de la opción actual
@@ -120,10 +123,10 @@ function CompetenciasController () {
 				// Se vacía el elemento que contiene los géneros
 		    	$("#genero").empty();
 		    	// Se carga la opción "sin seleccionar" que corresponde a todos los géneros
-		    	$("#genero").append("<option value='0'>Todos</option>");
+		    	$("#genero").append("<option style='background: #2D3E52;' value='0'>Todos</option>");
 		    	// Se recorren y cargan uno a uno los géneros retornados por el backend (data es un array de objetos json)
 		    	for (i = 0; i < data.length; i++) {
-		    		$("#genero").append("<option value='"+data[i].id+"'>"+data[i].nombre+"</option>");
+					$("#genero").append("<option style='background: #2D3E52;' value='"+data[i].id+"'>"+data[i].nombre+"</option>");
 		    	}
 		    });
 	},
@@ -136,10 +139,10 @@ function CompetenciasController () {
 				// Se vacía el elemento que contiene los directores/as
 		    	$("#director").empty();
 		    	// Se carga la opción "sin seleccionar" que corresponde a todos/as los/as directores/as
-		    	$("#director").append("<option value='0'>Todos/as</option>");
+		    	$("#director").append("<option style='background: #2D3E52;' value='0'>Todos/as</option>");
 		    	// Se recorren y cargan uno/a a uno/a los/as directores/as retornados por el backend (data es un array de objetos json)
 		    	for (i = 0; i < data.length; i++) {
-		    		$("#director").append("<option value='"+data[i].id+"'>"+data[i].nombre+"</option>");
+		    		$("#director").append("<option style='background: #2D3E52;' value='"+data[i].id+"'>"+data[i].nombre+"</option>");
 		    	}
 		    });
 	},
@@ -151,10 +154,10 @@ function CompetenciasController () {
 				// Se vacía el elemento que contiene los actores/actrices
 		    	$("#actor").empty();
 		    	// Se carga la opción "sin seleccionar" que corresponde a todos/as los/as actores/actrices
-		    	$("#actor").append("<option value='0'>Todos/as</option>");
+		    	$("#actor").append("<option style='background: #2D3E52;' value='0'>Todos/as</option>");
 		    	for (i = 0; i < data.length; i++) {
 		    	// Se recorren y cargan uno/a a uno/a los/as actores/actrices retornados por el backend (data es un array de objetos json)
-		    		$("#actor").append("<option value='"+data[i].id+"'>"+data[i].nombre+"</option>");
+		    		$("#actor").append("<option style='background: #2D3E52;' value='"+data[i].id+"'>"+data[i].nombre+"</option>");
 		    	}
 		    });
 	},
