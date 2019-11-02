@@ -25,6 +25,8 @@ app.get('/generos', controller.getGeneros);
 app.get('/directores', controller.getDirectores);
 app.get('/actores', controller.getActores);
 app.delete('/competencias/:id', controller.borrarCompetencia);
+app.put('/competencias/:id', controller.modificarCompetencia);
+
 
 //seteamos el puerto en el cual va a escuchar los pedidos la aplicación
 var puerto = '8080';
@@ -33,10 +35,3 @@ app.listen(puerto, function () {
   console.log( "Escuchando en el puerto " + puerto );
 });
         
-
-/*
-app.get('/peliculas/recomendacion', controller.getRecomendacion);
-app.get('/peliculas', controller.getPeliculas);
-app.get('/generos', controller.getGeneros);
-app.get('/peliculas/:id', controller.getPelicula);
-*/

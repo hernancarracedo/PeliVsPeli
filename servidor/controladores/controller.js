@@ -51,7 +51,7 @@ function getContrincantes(req, res){
 
             sql = sql + " ORDER BY RAND() LIMIT 2";
 
-            console.log("la consulta queda: " + sql);
+            //console.log("la consulta queda: " + sql);
 
             //sql = "SELECT * FROM pelicula ORDER BY RAND() LIMIT 2";
             conex.query(sql, function(error, result, fields){
@@ -62,7 +62,7 @@ function getContrincantes(req, res){
                     var response = {
                         peliculas : result
                     }
-                    console.log(response);
+                    //console.log(response);
                     res.send(JSON.stringify(response));
                 } 
             });
@@ -74,11 +74,11 @@ function guardarVoto(req, res){
     let idCompetencia = req.params.idCompetencia;
     let idPelicula = req.body.idPelicula;
 
-    console.log(idPelicula);
-    console.log(idCompetencia);
+    //console.log(idPelicula);
+    //console.log(idCompetencia);
 
     sql = "INSERT INTO voto (competencia_id, pelicula_id) VALUES ("+idCompetencia+", "+idPelicula+")";
-    console.log('la consulta de insert queda: '+ sql);
+    //console.log('la consulta de insert queda: '+ sql);
     conex.query(sql, function(error, result, fields){
         if (error) {
             console.log("Ha ocurrido un error en la consulta", error.message);
@@ -113,7 +113,7 @@ function getResultados(req, res){
                     competencia : resultadoCompe[0].nombre,
                     resultados : resultados
                 }
-                console.log(response);
+                //console.log(response);
                 res.send(JSON.stringify(response));
             });
         }
@@ -166,7 +166,7 @@ function guardarCompetencia(req, res){
     }
     sqlInsertar = sqlInsertar + ");";
 
-    console.log("la consulta queda: " + sqlInsertar);
+    //console.log("la consulta queda: " + sqlInsertar);
 
     sql = "SELECT * FROM competencia WHERE nombre = '"+ nombreCompetencia+"'";
     conex.query(sql, function(error, resultCompe, fields){
@@ -182,10 +182,10 @@ function guardarCompetencia(req, res){
         }
     });
 
-    console.log("el id de la competencia es: "+nombreCompetencia);
-    console.log("el genero de la competencia es: "+generoCompetencia);
-    console.log("el director de la competencia es: "+directorCompetencia);
-    console.log("el actor/actriz de la competencia es: "+actorCompetencia);    
+    //console.log("el id de la competencia es: "+nombreCompetencia);
+    //console.log("el genero de la competencia es: "+generoCompetencia);
+    //console.log("el director de la competencia es: "+directorCompetencia);
+    //console.log("el actor/actriz de la competencia es: "+actorCompetencia);    
 }
 
 
@@ -278,9 +278,30 @@ function borrarCompetencia(req, res){
 }
 
 
+function modificarCompetencia(req, res){
+    let idCompetencia = req.params.id;
+    let nombreCompetencia = req.body.nombre;
+
+    sql = "select nombre FROM competencia WHERE id = " + idCompetencia;
+    conex.query(sql, function(error, resultadoCompe, fields){
+        if (resultadoCompe.length == 0) {
+            return res.status(404).send("La competencia indicada no existe"); 
+        } else {
+            sql = `UPDATE competencia SET nombre = '`+nombreCompetencia+`' WHERE id =`+idCompetencia;
+            conex.query(sql, function(error, result, fields){
+                if (error) {
+                    console.log("Ha ocurrido un error en la consulta", error.message);
+                    return res.status(404).send("Ha ocurrido un error en la consulta");
+                } 
+                return res.status(200).send("Competencia editada correctamente");
+            });
+        }
+    });
+}
+
 function getCompetencia(req, res){
     let idCompetencia = req.params.id;
-    console.log(idCompetencia)
+    //console.log(idCompetencia)
     sql = `select competencia.nombre, actor.nombre as actor_nombre, director.nombre as director_nombre, genero.nombre as genero_nombre FROM competencia left join actor on actor.id = competencia.actor_id left join genero on genero.id = competencia.genero_id left join director on director.id = competencia.director_id WHERE competencia.id = ` + idCompetencia;
     conex.query(sql, function(error, resultado, fields){
         if (resultado.length == 0) {
@@ -304,6 +325,6 @@ module.exports = {
     getDirectores,
     getActores,
     borrarCompetencia,
-
+    modificarCompetencia,
     getCompetencia
 };
